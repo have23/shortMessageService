@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>[%d{HH:mm:ss}] [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+ <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>E:\logs\ShortMessageServices\log.txt</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>E:\logs\ShortMessageServices\log-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- or whenever the file size reaches 100MB -->
+				<maxFileSize>100KB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		 </rollingPolicy>
+		<encoder>
+			<pattern>[%d{HH:mm:ss}] [%thread] %-5level %logger{39} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="ROLLING" />
+	</appender>
+	
+	<logger name="org.springframework" level="ERROR"/>
+    <logger name="org.apache" level="ERROR"/>
+    <logger name="org.hibernate" level="ERROR"/>
+    
+  <root level="info">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="ASYNC" />
+  </root>
+</configuration>
